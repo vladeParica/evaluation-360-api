@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: evaluation360-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+    networks:
+      - evaluation360-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: evaluation360-api
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/evaluation360?authSource=admin
+      - JWT_SECRET=8yF9jK#mP2$qL5vN7xW4hT3dR8bE9nA6
+      - NODE_ENV=development
+    depends_on:
+      - mongodb
+    networks:
+      - evaluation360-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  evaluation360-network:
+    driver: bridge 
