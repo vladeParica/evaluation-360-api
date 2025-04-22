@@ -1,0 +1,73 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDdjN2ZkMTczOTAxNDEwNWMxYTRjZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NTM0NjAxNCwiZXhwIjoxNzQ1NDMyNDE0fQ.2-4SIGRa0ar6Btk_dND8HgBt0nb8txaLu1IFuAuF_EY
+
+### Auth Endpoints
+
+### Register a new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "admin1",
+    "email": "admin1@example.com",
+    "password": "password123",
+    "role": "admin"
+}
+
+### Register a new employee
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "employee11",
+  "email": "employee11@example.com",
+  "password": "password123",
+  "role": "employee"
+}
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "password123"
+}
+
+### Employee Endpoints
+
+### Get all employees (Admin/Manager only)
+GET {{baseUrl}}/employees
+Authorization: Bearer {{token}}
+
+### Get employee by ID
+GET {{baseUrl}}/employees/6807e2511ae8bedd8e9e907f
+Authorization: Bearer {{token}}
+
+### Create new employee (Admin only)
+POST {{baseUrl}}/employees
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "userId": "6807e2431ae8bedd8e9e907a",
+    "firstName": "John",
+    "lastName": "Doe",
+    "position": "Developer",
+    "department": "Engineering"
+}
+
+### Update employee (Admin/Manager only)
+PUT {{baseUrl}}/employees/6807e2511ae8bedd8e9e907f
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "userId": "6807e2431ae8bedd8e9e907a",
+    "firstName": "Jhonny",
+    "lastName": "Doe",
+    "position": "Senior Developer",
+    "department": "Engineering"
+}
+

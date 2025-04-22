@@ -24,10 +24,6 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    manager: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-    },
     hireDate: {
         type: Date,
         default: Date.now
