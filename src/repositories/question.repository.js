@@ -1,29 +1,15 @@
-const mongoose = require('mongoose');
+const BaseRepository = require('./base.repository');
+const Question = require('../models/question.model');
 
-const questionSchema = new mongoose.Schema({
-    text: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        enum: ['leadership', 'communication', 'teamwork', 'technical', 'productivity'],
-        required: true
-    },
-    type: {
-        type: String,
-        enum: ['scale', 'text', 'multiple_choice'],
-        default: 'scale'
-    },
-    options: [{
-        value: Number,
-        text: String
-    }],
-    isActive: {
-        type: Boolean,
-        default: true
+class QuestionRepository extends BaseRepository {
+    constructor() {
+        super(Question);
     }
-}, { timestamps: true });
 
-const Question = mongoose.model('Question', questionSchema);
-module.exports = Question;
+    async findByCategory(category) {
+        return await this.model.find({ category, isActive: true });
+    }
+
+}
+
+module.exports = new QuestionRepository();
