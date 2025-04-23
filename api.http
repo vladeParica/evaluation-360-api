@@ -1,0 +1,214 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDdjN2ZkMTczOTAxNDEwNWMxYTRjZSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NTM0NjAxNCwiZXhwIjoxNzQ1NDMyNDE0fQ.2-4SIGRa0ar6Btk_dND8HgBt0nb8txaLu1IFuAuF_EY
+
+### Health Check
+GET {{baseUrl}}/health/
+
+### Auth Endpoints
+
+### Register a new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "admin1",
+    "email": "admin1@example.com",
+    "password": "password123",
+    "role": "admin"
+}
+
+### Register a new employee
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "employee11",
+  "email": "employee11@example.com",
+  "password": "password123",
+  "role": "employee"
+}
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "password123"
+}
+
+### Employee Endpoints
+
+### Get all employees (Admin/Manager only)
+GET {{baseUrl}}/employees
+Authorization: Bearer {{token}}
+
+### Get employee by ID
+GET {{baseUrl}}/employees/6807e2511ae8bedd8e9e907f
+Authorization: Bearer {{token}}
+
+### Create new employee (Admin only)
+POST {{baseUrl}}/employees
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# userId: ID del usuario en el sistema creado con el endpoint {{baseUrl}}/employees
+
+{
+    "userId": "6807e2431ae8bedd8e9e907a",
+    "firstName": "John",
+    "lastName": "Doe",
+    "position": "Developer",
+    "department": "Engineering"
+}
+
+### Update employee (Admin/Manager only)
+PUT {{baseUrl}}/employees/6807e2511ae8bedd8e9e907f
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# userId: ID del usuario en el sistema creado con el endpoint {{baseUrl}}/employees
+
+{
+    "userId": "6807e2431ae8bedd8e9e907a",
+    "firstName": "Jhonny",
+    "lastName": "Doe",
+    "position": "Senior Developer",
+    "department": "Engineering"
+}
+
+### Question Endpoints
+
+### Get all questions
+GET {{baseUrl}}/questions
+Authorization: Bearer {{token}}
+
+### Get question by ID
+GET {{baseUrl}}/questions/680847682e241c7e469af649
+Authorization: Bearer {{token}}
+
+### Create new question (Admin only)
+POST {{baseUrl}}/questions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "text": "Como ha afrontado los desafios del equipo?",
+  "category": "technical",
+  "type": "scale",
+  "options": [
+    {
+      "value": 1,
+      "text": "Poor"
+    },
+    {
+      "value": 2,
+      "text": "Fair"
+    },
+    {
+      "value": 3,
+      "text": "Good"
+    },
+    {
+      "value": 4,
+      "text": "Very Good"
+    },
+    {
+      "value": 5,
+      "text": "Excellent"
+    }
+  ]
+}
+
+### Update question (Admin only)
+PUT {{baseUrl}}/questions/680847682e241c7e469af649
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "text": "Updated question text",
+  "category": "communication",
+  "isActive": true
+}
+
+### Evaluation Endpoints
+
+### Get all evaluations
+GET {{baseUrl}}/evaluations
+Authorization: Bearer {{token}}
+
+### Get evaluation by ID
+GET {{baseUrl}}/evaluations/680855f59577f4c7acfcd8f8
+Authorization: Bearer {{token}}
+
+### Create new evaluation (Admin/Manager only)
+POST {{baseUrl}}/evaluations
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# employee: ID del usuario en el sistema creado con el endpoint POST {{baseUrl}}/employees
+# evaluator: ID del usuario en el sistema creado con el endpoint POST {{baseUrl}}/employees
+
+{
+  "title": "Q7 2024 Evaluation",
+  "period": {
+    "startDate": "2024-01-01T00:00:00.000Z",
+    "endDate": "2024-03-31T23:59:59.999Z"
+  },
+  "type": "complete360",
+  "employee": "6807e2511ae8bedd8e9e907f",
+  "evaluator": "6807cdba9c9f976d88331b5a"
+}
+
+### Update evaluation (Admin/Manager only)
+PUT {{baseUrl}}/evaluations/680855f59577f4c7acfcd8f8
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# employee: ID del usuario en el sistema creado con el endpoint POST {{baseUrl}}/employees
+# evaluator: ID del usuario en el sistema creado con el endpoint POST {{baseUrl}}/employees
+
+{
+  "title": "Q1 2024 Evaluation - Updated",
+  "period": {
+    "startDate": "2024-01-01T00:00:00.000Z",
+    "endDate": "2024-03-31T23:59:59.999Z"
+  },
+  "status": "active",
+  "type": "complete360",
+  "employee": "6807e2511ae8bedd8e9e907f",
+  "evaluator": "6807cdba9c9f976d88331b5a"
+}
+
+### Submit evaluation
+POST {{baseUrl}}/evaluations/680855ce9577f4c7acfcd8e5/submit
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# question: ID de la pregrunta en el sistema creado con el endpoint POST {{baseUrl}}/questions
+# evaluator: ID del usuario en el sistema creado con el endpoint POST {{baseUrl}}/employees
+
+{
+  "responses": [
+    {
+      "question": "680847672e241c7e469af641",
+      "numericalResponse": 4
+    },
+    {
+      "question": "680847682e241c7e469af649",
+      "numericalResponse": 5
+    }
+  ],
+  "evaluator": "6807cdba9c9f976d88331b5a"
+}
+
+### Report Endpoints
+
+### Get employee report (Admin/Manager only)
+GET {{baseUrl}}/reports/employee/6807e2511ae8bedd8e9e907f
+Authorization: Bearer {{token}}
+
+### Get department report (Admin/Manager only)
+GET {{baseUrl}}/reports/department/Engineering
+Authorization: Bearer {{token}}
