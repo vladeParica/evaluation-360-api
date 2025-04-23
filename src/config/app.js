@@ -7,8 +7,8 @@ const errorMiddleware = require('../middlewares/error.middleware');
 
 const authRoutes = require('../routes/auth.routes');
 const employeeRoutes = require('../routes/employee.routes');
-// const evaluationRoutes = require('../routes/evaluation.routes');
-// const questionRoutes = require('../routes/question.routes');
+const evaluationRoutes = require('../routes/evaluation.routes');
+const questionRoutes = require('../routes/question.routes');
 // const reportRoutes = require('../routes/report.routes');
 
 const app = express();
@@ -21,6 +21,8 @@ app.use(helmet());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/employees', employeeRoutes);
+app.use('/api/evaluations', evaluationRoutes);
+app.use('/api/questions',questionRoutes)
 
 app.get('/', (req, res) => {
     res.json({
