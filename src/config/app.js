@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const errorMiddleware = require('../middlewares/error.middleware');
+const swaggerDocs = require('./swagger');
 
 const authRoutes = require('../routes/auth.routes');
 const employeeRoutes = require('../routes/employee.routes');
@@ -22,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+// Initialize Swagger documentation
+swaggerDocs(app);
 
 app.use('/api/', apiLimiter);
 app.use('/api/auth/', authLimiter);
